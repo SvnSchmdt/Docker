@@ -28,10 +28,6 @@ services:
       - ${CFG_PATH}/awx/credentials.py:/etc/tower/conf.d/credentials.py"
       - ${CFG_PATH}/awx/nginx.conf:/etc/nginx/nginx.conf:ro"
       - ${CFG_PATH}/awx/redis_socket:/var/run/redis/:rw"
-    environment:
-      http_proxy:
-      https_proxy:
-      no_proxy:
 
   task:
     image: ansible/awx:17.1.0
@@ -54,19 +50,12 @@ services:
       -  ${CFG_PATH}/awx/redis_socket:/var/run/redis/:rw"
     environment:
       AWX_SKIP_MIGRATIONS: "1"
-      http_proxy:
-      https_proxy:
-      no_proxy:
       SUPERVISOR_WEB_CONFIG_PATH: '/etc/supervisord.conf'
 
   redis:
     image: redis
     container_name: awx_redis
     restart: unless-stopped
-    environment:
-      http_proxy:
-      https_proxy:
-      no_proxy:
     command: ["/usr/local/etc/redis/redis.conf"]
     volumes:
       - ${CFG_PATH}/awx/redis.conf:/usr/local/etc/redis/redis.conf:ro"
@@ -82,9 +71,9 @@ services:
       POSTGRES_USER: awx
       POSTGRES_PASSWORD: awxpass
       POSTGRES_DB: awx
-      http_proxy:
-      https_proxy:
-      no_proxy:
+
+
+
 
 
 
