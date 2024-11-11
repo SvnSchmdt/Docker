@@ -7,11 +7,11 @@ services:
     labels:
       - traefik.enable=true
     ## the container's port must be the same with the STASH_PORT in the environment section
-      - traefik.http.routers.homepage.tls=true
-      - traefik.http.routers.homepage.tls.certresolver=${TRAEFIK_ENTRYPOINT}
-      - traefik.http.routers.homepage.entrypoints=${TRAEFIK_ENTRYPOINT}
-      - traefik.http.routers.homepage.rule=Host(`${AWX_DOMAIN}`)
-      - traefik.http.services.homepage.loadbalancer.server.port=80
+      - traefik.http.routers.awx.tls=true
+      - traefik.http.routers.awx.tls.certresolver=${TRAEFIK_ENTRYPOINT}
+      - traefik.http.routers.awx.entrypoints=${TRAEFIK_ENTRYPOINT}
+      - traefik.http.routers.awx.rule=Host(`${AWX_DOMAIN}`)
+      - traefik.http.services.awx.loadbalancer.server.port=80
     ports:
       - "80:8052"
     environment:
