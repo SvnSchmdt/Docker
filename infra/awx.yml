@@ -58,3 +58,7 @@ services:
       https_proxy:
       no_proxy:
       SUPERVISOR_WEB_CONFIG_PATH: '/etc/supervisord.conf'
+
+networks:
+  tailnet:
+    external: true
