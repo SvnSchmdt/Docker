@@ -1,0 +1,24 @@
+---
+services:
+  web:
+    image: ansible/awx:latest
+    ports:
+      - "80:8052"
+    environment:
+      SECRET_KEY: ${AWX_SECRET}
+      DATABASE_USER: ${AWX_DB_USER}
+      DATABASE_NAME: ${AWX_DB_NAME}
+      DATABASE_PASSWORD: ${AWX_DB_PASS}
+      DATABASE_HOST: postgres
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:12
+    environment:
+      POSTGRES_USER: ${AWX_DB_USER}
+      POSTGRES_PASSWORD: ${AWX_DB_PASS}
+      POSTGRES_DB: awx
+    volumes:
+      - ${CFG_PATH}/awx/:/var/lib/postgresql/data
+
