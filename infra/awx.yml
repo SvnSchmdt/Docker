@@ -1,7 +1,7 @@
 ---
 services:
   web:
-    image: ansible/awx:latest
+    image: ansible/awx:17.1.0
     ports:
       - "80:8052"
     environment:
