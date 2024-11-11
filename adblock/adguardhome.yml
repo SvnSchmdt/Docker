@@ -1,0 +1,47 @@
+version: '3.3'
+services:
+  adguard:
+      image: adguard/adguardhome:latest
+      container_name: adguardhome
+      restart: unless-stopped
+      labels:
+        - traefik.enable=true
+        ## Redirect to HTTPS
+        - traefik.http.routers.adguard-https.tls=true
+        - traefik.http.routers.adguard-https.tls.certresolver=${TRAEFIK_CERTRESOLVER}
+        - traefik.http.routers.adguard-https.entrypoints=${TRAEFIK_ENTRYPOINT}
+        - traefik.http.routers.adguard-https.rule=Host(`${ADGUARD_DOMAIN}`)
+        - traefik.http.services.adguard-https.loadbalancer.server.port=80
+      volumes:
+          - ${CFG_PATH}/adguardData:/opt/adguardhome/work
+          - ${CFG_PATH}/adguard:/opt/adguardhome/conf
+      networks:
+        - "tailnet"  
+  # tailscale-adguard:
+  #   image: tailscale/tailscale:latest
+  #   container_name: ts-adguard
+  #   hostname: adguard
+  #   networks:
+  #     - "tailnet"       
+  #   dns:
+  #    - "1.1.1.1"
+  #   environment:
+  #     - TS_AUTHKEY=${ADGUARD_TS_AUTH_KEY}
+  #     - TS_EXTRA_ARGS=--advertise-tags=tag:container
+  #     - TS_STATE_DIR=/var/lib/tailscale
+  #     - TS_SERVE_CONFIG=/config/adguard.json
+  #     - TS_USERSPACE=false
+  #   volumes:
+  #     - ${CFG_PATH}/tailscale/tailscale-adguard/state:/var/lib/tailscale
+  #     - ${CFG_PATH}/tailscale/tailscale-adguard/config:/config
+  #     - /dev/net/tun:/dev/net/tun
+  #   cap_add:
+  #     - net_admin
+  #     - sys_module
+  #   restart: unless-stopped
+
+
+networks:
+  tailnet:
+    external:
+      name: tailnet

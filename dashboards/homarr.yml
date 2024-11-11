@@ -1,0 +1,30 @@
+---
+#---------------------------------------------------------------------#
+#     Homarr - A simple, yet powerful dashboard for your server.      #
+#---------------------------------------------------------------------#
+services:
+  homarr:
+    networks:
+      - "tailnet" 
+    container_name: homarr
+    image: ghcr.io/ajnart/homarr:latest
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # Optional, only if you want docker integration
+      - ${CFG_PATH}/homarr/configs:/app/data/configs
+      - ${CFG_PATH}/homarr/icons:/app/public/icons
+      - ${CFG_PATH}/homarr/backgrounds:/app/public/backgrounds
+      - ${CFG_PATH}/homarr/data:/data
+    labels:
+      - traefik.enable=true
+    ## the container's port must be the same with the STASH_PORT in the environment section
+      - traefik.http.routers.homarr.tls=true
+      - traefik.http.routers.homarr.tls.certresolver=${TRAEFIK_ENTRYPOINT}
+      - traefik.http.routers.homarr.entrypoints=${TRAEFIK_ENTRYPOINT}
+      - traefik.http.routers.homarr.rule=Host(`${HOMEPAGE_DOMAIN}`)
+      - traefik.http.services.homarr.loadbalancer.server.port=7575
+
+networks:
+  tailnet:
+      name: tailnet
+      external: true  

@@ -1,0 +1,25 @@
+services:
+  homeassistant:
+    container_name: homeassistant
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    network_mode: host
+    labels:
+      - traefik.enable=true
+      ## Redirect to HTTPS
+      - traefik.http.routers.iot-https.tls=true
+      - traefik.http.routers.iot-https.tls.certresolver=${TRAEFIK_CERTRESOLVER}
+      - traefik.http.routers.iot-https.entrypoints=${TRAEFIK_ENTRYPOINT}
+      - traefik.http.routers.iot-https.rule=Host(`${IOT_DOMAIN}`)
+      - traefik.http.services.iot-https.loadbalancer.server.port=8123
+    volumes:
+      - ${CFG_PATH}/homeassistant/:/config
+      - /etc/localtime:/etc/localtime:ro
+      - /run/dbus:/run/dbus:ro
+    restart: unless-stopped
+    privileged: true
+
+networks:
+  tailnet:
+    name: tailnet
+    external: true
+

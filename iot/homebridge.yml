@@ -1,0 +1,24 @@
+---
+services:
+  homebridge:
+    image: homebridge/homebridge:latest
+    container_name: homebridge
+    restart: always
+    networks:
+      - "tailnet"
+    labels:
+      - "traefik.enable=true"
+      # Redirect to https
+      - traefik.http.routers.homebridge-https.tls=true
+      - traefik.http.routers.homebridge-https.tls.certresolver=${TRAEFIK_CERTRESOLVER}
+      - traefik.http.routers.homebridge-https.entrypoints=${TRAEFIK_ENTRYPOINT}
+      - traefik.http.routers.homebridge-https.rule=Host(`${IOT_DOMAIN}`)
+      - traefik.http.services.homebridge-https.loadbalancer.server.port=8581
+      - traefik.port=8080
+    volumes:
+      - ${CFG_PATH}/homebridge:/homebridge
+
+networks:
+  tailnet:
+      name: tailnet
+      external: true 

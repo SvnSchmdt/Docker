@@ -1,0 +1,24 @@
+version: '3,6'
+
+services:
+  vaultwarden:
+    container_name: vaultwarden
+    image: vaultwarden/server:latest
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      ## Redirect to HTTPS
+      - traefik.http.routers.vaultwarden-https.tls=true
+      - traefik.http.routers.vaultwarden-https.tls.certresolver=${TRAEFIK_CERTRESOLVER}
+      - traefik.http.routers.vaultwarden-https.entrypoints=${TRAEFIK_ENTRYPOINT}
+      - traefik.http.routers.vaultwarden-https.rule=Host(`${VAULT_DOMAIN}`)
+      - traefik.http.services.vaultwarden-https.loadbalancer.server.port=80 
+    volumes:
+      - ${CFG_PATH}/vaultwarden:/data/
+    networks:
+      - "tailnet"
+
+networks:
+  tailnet:
+    external:
+      name: tailnet

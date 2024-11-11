@@ -1,0 +1,69 @@
+services:
+  # tailscale-qbit:
+  #   image: tailscale/tailscale:latest
+  #   container_name: ts-qbit
+  #   environment:
+  #     - TS_AUTHKEY=${QBIT_TS_AUTH_KEY}
+  #     - TS_EXTRA_ARGS=--advertise-tags=tag:container
+  #     - TS_STATE_DIR=/var/lib/tailscale
+  #     - TS_SERVE_CONFIG=/config/qbit.json
+  #     - TS_USERSPACE=false
+  #   volumes:
+  #     - ${CFG_PATH}/tailscale/tailscale-qbit/state:/var/lib/tailscale
+  #     - ${CFG_PATH}/tailscale/tailscale-qbit/config:/config
+  #     - /dev/net/tun:/dev/net/tun
+  #   cap_add:
+  #     - net_admin
+  #     - sys_module
+  #   restart: unless-stopped
+  #   network_mode: service:vpn
+  #   depends_on:
+  #     -  vpn
+
+  vpn:
+    image: qmcgaw/gluetun:latest
+    container_name: vpn-qbit
+    hostname: qbit
+    dns:
+     - "8.8.8.8"
+     - "100.100.100.100"
+    cap_add:
+      - net_admin
+    environment:
+      - VPN_SERVICE_PROVIDER=${VPN_SERVICE_PROVIDER}
+      - VPN_TYPE=${VPN_TYPE}
+      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
+      - OPENVPN_USER=${OPENVPN_USER}
+      - OPENVPN_PASSWORD=${OPENVPN_PASS}
+      - SERVER_COUNTRIES=${SERVER_COUNTRIES}
+    networks:
+      - "tailnet"
+
+  
+  torrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbit
+    labels:
+      - "traefik.enable=true"
+      # Redirect to https
+      - traefik.http.routers.qbit-https.tls=true
+      - traefik.http.routers.qbit-https.tls.certresolver=${TRAEFIK_CERTRESOLVER}
+      - traefik.http.routers.qbit-https.entrypoints=${TRAEFIK_ENTRYPOINT}
+      - traefik.http.routers.qbit-https.rule=Host(`${QBIT_DOMAIN}`)
+      - traefik.http.services.qbit-https.loadbalancer.server.port=8080
+      - traefik.port=8080
+    environment:
+      - TZ=Europe/Berlin
+      - WEBUI_PORT=8080
+      - DOCKER_MODS=ghcr.io/vuetorrent/vuetorrent-lsio-mod:latest
+    volumes:
+      - ${CFG_PATH}/qBittorrent:/config
+      - ${DATA_PATH}:/downloads
+    network_mode: service:vpn
+    depends_on:
+      -  vpn
+
+networks:
+  tailnet:
+      name: tailnet
+      external: true 

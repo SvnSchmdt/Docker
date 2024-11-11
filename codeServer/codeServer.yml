@@ -1,0 +1,30 @@
+---
+services:
+  code-server:
+    image: lscr.io/linuxserver/code-server:latest
+    container_name: code-server
+    networks:
+      - "tailnet"
+    labels:
+      - traefik.enable=true
+    ## the container's port must be the same with the STASH_PORT in the environment section
+      - traefik.http.routers.code.tls=true
+      - traefik.http.routers.code.tls.certresolver=${TRAEFIK_CERTRESOLVER}
+      - traefik.http.routers.code.entrypoints=${TRAEFIK_ENTRYPOINT}
+      - traefik.http.routers.code.rule=Host(`${CODE_DOMAIN}`)
+      - traefik.http.services.code.loadbalancer.server.port=8443
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - PROXY_DOMAIN=${CODE_DOMAIN} #optional
+      - DEFAULT_WORKSPACE=/config/workspace #optional
+    volumes:
+      - ${CFG_PATH}/code-serverconfig:/config
+    restart: unless-stopped
+
+
+networks:
+  tailnet:
+      name: tailnet
+      external: true  

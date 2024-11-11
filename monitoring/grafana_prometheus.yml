@@ -1,0 +1,53 @@
+---
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    labels:
+      - "traefik.enable=true"
+      # Redirect to https
+      - traefik.http.routers.prometheus-https.tls=true
+      - traefik.http.routers.prometheus-https.tls.certresolver=${TRAEFIK_CERTRESOLVER}
+      - traefik.http.routers.prometheus-https.entrypoints=${TRAEFIK_ENTRYPOINT}
+      - traefik.http.routers.prometheus-https.rule=Host(`${PROMETHEUS_DOMAIN}`)
+      - traefik.http.services.prometheus-https.loadbalancer.server.port=9090
+      - traefik.port=9090
+    volumes:
+      - ${CFG_PATH}/prometheus/:/etc/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    restart: always
+    networks:
+      - tailnet
+  grafana:
+    image: grafana/grafana:latest
+    labels:
+      - "traefik.enable=true"
+      # Redirect to https
+      - traefik.http.routers.grafana-https.tls=true
+      - traefik.http.routers.grafana-https.tls.certresolver=${TRAEFIK_CERTRESOLVER}
+      - traefik.http.routers.grafana-https.entrypoints=${TRAEFIK_ENTRYPOINT}
+      - traefik.http.routers.grafana-https.rule=Host(`${GRAFANA_DOMAIN}`)
+      - traefik.http.services.grafana-https.loadbalancer.server.port=3000
+      - traefik.port=3000
+    networks:
+      - tailnet
+    depends_on:
+      - prometheus
+    restart: always
+  web_server:
+    labels:
+      - "traefik.enable=true"
+      # Redirect to https
+      - traefik.http.routers.grafana-web.tls=true
+      - traefik.http.routers.grafana-web.tls.certresolver=${TRAEFIK_CERTRESOLVER}
+      - traefik.http.routers.grafana-web.entrypoints=webSe${TRAEFIK_ENTRYPOINT}cure
+      - traefik.http.routers.grafana-web.rule=Host(`${WEB_DOMAIN}`)
+      - traefik.http.services.grafana-web.loadbalancer.server.port=80
+      - traefik.port=80
+    image: httpd:2.4
+    restart: always
+
+networks:
+  tailnet:
+    external:
+      name: tailnet 

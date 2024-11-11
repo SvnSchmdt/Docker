@@ -1,0 +1,32 @@
+---
+
+services:
+  plex:
+    container_name: plex
+    image: plexinc/pms-docker
+    networks:
+      - "tailnet"      
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+    ## the container's port must be the same with the STASH_PORT in the environment section
+      - traefik.http.routers.plex.tls=true
+      - traefik.http.routers.plex.tls.certresolver=${TRAEFIK_CERTRESOLVER}
+      - traefik.http.routers.plex.entrypoints=${TRAEFIK_ENTRYPOINT}
+      - traefik.http.routers.plex.rule=Host(`${PLEX_DOMAIN}`)
+      - traefik.http.services.plex.loadbalancer.server.port=32400
+    environment:
+      - 'ADVERTISE_IP=http://192.168.178.146:32400/,${ADVERTISE_DOMAIN}'
+      - TZ=Etc/UTC
+      - PLEX_CLAIM=${PLEX_CLAIM}
+    volumes:
+      - ${CFG_PATH}/plex:/config
+      - ${DATA_PATH}/TV-Shows:${DATA_PATH}/TV-Shows
+      - ${DATA_PATH}/Movies:${DATA_PATH}/Movies
+
+
+
+networks:
+  tailnet:
+      name: tailnet
+      external: true 

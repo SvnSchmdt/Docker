@@ -1,0 +1,55 @@
+---
+
+services:
+  plex:
+    container_name: plex
+    image: plexinc/pms-docker 
+    networks:
+      - "tailnet"
+    restart: always
+    labels:
+      - traefik.enable=true
+    ## the container's port must be the same with the STASH_PORT in the environment section
+      - traefik.http.routers.plex.tls=true
+      - traefik.http.routers.plex.tls.certresolver=${TRAEFIK_CERTRESOLVER}
+      - traefik.http.routers.plex.entrypoints=${TRAEFIK_ENTRYPOINT}
+      - traefik.http.routers.plex.rule=Host(`${PLEX_DOMAIN}`)
+      - traefik.http.services.plex.loadbalancer.server.port=32400
+    environment:
+      - 'ADVERTISE_IP=http://192.168.178.146:32400/,${ADVERTISE_DOMAIN}'
+      - TZ=Etc/UTC
+      - PLEX_CLAIM=${PLEX_CLAIM}
+    volumes:
+      - ${CFG_PATH}/plex:/config
+      - ${DATA_PATH}/TV-Shows:${DATA_PATH}/TV-Shows
+      - ${DATA_PATH}/Movies:${DATA_PATH}/Movies
+    # depends_on:
+    #   - tailscale-plex
+    # network_mode: service:tailscale-plex
+
+  # tailscale-plex:
+  #   image: tailscale/tailscale:latest
+  #   container_name: ts-plex
+  #   hostname: plex
+  #   networks:
+  #     - "tailnet"
+  #   dns:
+  #    - "1.1.1.1"
+  #   environment:
+  #     - TS_AUTHKEY=${PLEX_TS_AUTH_KEY}
+  #     - TS_EXTRA_ARGS=--advertise-tags=tag:container
+  #     - TS_STATE_DIR=/var/lib/tailscale
+  #     - TS_SERVE_CONFIG=/config/plex.json
+  #     - TS_USERSPACE=false
+  #   volumes:
+  #     - ${CFG_PATH}/tailscale/tailscale-plex/state:/var/lib/tailscale
+  #     - ${CFG_PATH}/tailscale/tailscale-plex/config:/config
+  #     - /dev/net/tun:/dev/net/tun
+  #   cap_add:
+  #     - net_admin
+  #     - sys_module
+  #   restart: unless-stopped
+networks:
+  tailnet:
+      name: tailnet
+      external: true 
