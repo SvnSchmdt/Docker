@@ -20,9 +20,9 @@ services:
     user: root
     restart: unless-stopped
     volumes:
-      - supervisor-socket:/var/run/supervisor
-      - rsyslog-socket:/var/run/awx-rsyslog/
-      - rsyslog-config:/var/lib/awx/rsyslog/
+      - ${CFG_PATH}/awx/supervisor-socket:/var/run/supervisor
+      - ${CFG_PATH}/awx/rsyslog-socket:/var/run/awx-rsyslog/
+      - ${CFG_PATH}/awx/rsyslog-config:/var/lib/awx/rsyslog/
       - ${CFG_PATH}/awx/SECRET_KEY:/etc/tower/SECRET_KEY
       - ${CFG_PATH}/awx/environment.sh:/etc/tower/conf.d/environment.sh"
       - ${CFG_PATH}/awx/credentials.py:/etc/tower/conf.d/credentials.py"
@@ -41,17 +41,15 @@ services:
     user: root
     restart: unless-stopped
     volumes:
-      - supervisor-socket:/var/run/supervisor
-      - rsyslog-socket:/var/run/awx-rsyslog/
-      - rsyslog-config:/var/lib/awx/rsyslog/
-      -  ${CFG_PATH}/awx/SECRET_KEY:/etc/tower/SECRET_KEY"
-      -  ${CFG_PATH}/awx/environment.sh:/etc/tower/conf.d/environment.sh"
-      -  ${CFG_PATH}/awx/credentials.py:/etc/tower/conf.d/credentials.py"
-      -  ${CFG_PATH}/awx/redis_socket:/var/run/redis/:rw"
+      - ${CFG_PATH}/awx/supervisor-socket:/var/run/supervisor
+      - ${CFG_PATH}/awx/rsyslog-socket:/var/run/awx-rsyslog/
+      - ${CFG_PATH}/awx/rsyslog-config:/var/lib/awx/rsyslog/
+      - ${CFG_PATH}/awx/SECRET_KEY:/etc/tower/SECRET_KEY"
+      - ${CFG_PATH}/awx/environment.sh:/etc/tower/conf.d/environment.sh"
+      - ${CFG_PATH}/awx/credentials.py:/etc/tower/conf.d/credentials.py"
+      - ${CFG_PATH}/awx/redis_socket:/var/run/redis/:rw"
     environment:
       AWX_SKIP_MIGRATIONS: "1"
-      SUPERVISOR_WEB_CONFIG_PATH: '/etc/supervisord.conf'
-
   redis:
     image: redis
     container_name: awx_redis
