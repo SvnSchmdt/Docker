@@ -48,7 +48,7 @@ services:
         - traefik.http.routers.jdownloader-https.tls=true
         - traefik.http.routers.jdownloader-https.tls.certresolver=${TRAEFIK_CERTRESOLVER}
         - traefik.http.routers.jdownloader-https.entrypoints=${TRAEFIK_ENTRYPOINT}
-        - traefik.http.routers.jdownloader-https.rule=Host(`{JDOWNLOADER_DOMAIN}`)
+        - traefik.http.routers.jdownloader-https.rule=Host(`${JDOWNLOADER_DOMAIN}`)
         - traefik.http.services.jdownloader-https.loadbalancer.server.port=5800
     environment:
       - USER_ID=911
