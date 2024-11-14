@@ -34,6 +34,13 @@ services:
       - ${CFG_PATH}/tdarr/tmp:/temp
     devices:
       - /dev/dri:/dev/dri
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            count: all
+            capabilities: [gpu]
     
 
 # node example
@@ -57,10 +64,15 @@ services:
       - ${CFG_PATH}/tdarrlogs:/app/logs
       - ${DATA_PATH}:/media
       - ${CFG_PATH}/tdarr/tmp:/temp
-
     devices:
       - /dev/dri:/dev/dri
-
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            count: all
+            capabilities: [gpu]
 
 networks:
   tailnet:
