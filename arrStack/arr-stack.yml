@@ -3,7 +3,7 @@ services:
   radarr:
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
-    network: 
+    networks: 
       - tailnet
     environment:
       - PUID=${PUID}
@@ -25,7 +25,7 @@ services:
   overseerr:
     image: lscr.io/linuxserver/overseerr:latest
     container_name: overseerr
-    network: 
+    networks: 
       - tailnet
     labels:
       - "traefik.enable=true"
@@ -48,4 +48,4 @@ services:
 
 networks:
   tailnet:
-    external: true
+    external: true  
