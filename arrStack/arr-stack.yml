@@ -71,6 +71,7 @@ services:
       - ${CFG_PATH}/jackett/data:/config
       - ${DATA_PATH}/incomplete/jackett:/downloads
     restart: unless-stopped
+
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
@@ -91,6 +92,27 @@ services:
       - traefik.http.services.prowlarr-https.loadbalancer.server.port=9696
       - traefik.port=9696
     restart: unless-stopped
+
+  flaresolverr:
+    # DockerHub mirror flaresolverr/flaresolverr:latest
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: solverr
+    environment:
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - LOG_HTML=${LOG_HTML:-false}
+      - CAPTCHA_SOLVER=${CAPTCHA_SOLVER:-none}
+      - TZ=Europe/Berlin
+    labels:
+      - "traefik.enable=true"
+      # Redirect to https
+      - traefik.http.routers.solverr-https.tls=true
+      - traefik.http.routers.solverr-https.tls.certresolver=${TRAEFIK_CERTRESOLVER}
+      - traefik.http.routers.solverr-https.entrypoints=${TRAEFIK_ENTRYPOINT}
+      - traefik.http.routers.solverr-https.rule=Host(`${SOLVERR_DOMAIN}`)
+      - traefik.http.services.solverr-https.loadbalancer.server.port=8191
+      - traefik.port=8191
+    restart: unless-stopped 
+
 
 networks:
   tailnet:
