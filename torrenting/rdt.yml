@@ -2,7 +2,7 @@
 services:
     vpn:
         image: qmcgaw/gluetun:latest
-        container_name: vpn-qbit
+        container_name: vpn-rdt
         hostname: rdt
         dns:
             - "8.8.8.8"
