@@ -1,0 +1,22 @@
+services:
+  sabnzbd:
+    image: lscr.io/linuxserver/sabnzbd:latest
+    container_name: sabnzbd
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=Europe/Berlin
+    volumes:
+      - ${CFG_PATH}/sabnzbd/config:/config
+      - ${PATH_DATA}:/downloads #optional
+      - ${PATH_DATA}/incomplete/nzb:/incomplete-downloads #optional
+    labels:
+      - "traefik.enable=true"
+      # Redirect to https
+      - traefik.http.routers.sabnzbd-https.tls=true
+      - traefik.http.routers.sabnzbd-https.tls.certresolver=${TRAEFIK_CERTRESOLVER}
+      - traefik.http.routers.sabnzbd-https.entrypoints=${TRAEFIK_ENTRYPOINT}
+      - traefik.http.routers.sabnzbd-https.rule=Host(`${SABNZBD_DOMAIN}`)
+      - traefik.http.services.sabnzbd-https.loadbalancer.server.port=8080
+      - traefik.port=8080
+    restart: unless-stopped
