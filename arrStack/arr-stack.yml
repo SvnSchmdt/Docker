@@ -71,7 +71,26 @@ services:
       - ${CFG_PATH}/jackett/data:/config
       - ${DATA_PATH}/incomplete/jackett:/downloads
     restart: unless-stopped
-
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    networks: 
+      - tailnet 
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=Europe/Berlin
+      - ${CFG_DATA}/prowlarr/data:/config
+    labels:
+      - "traefik.enable=true"
+      # Redirect to https
+      - traefik.http.routers.prowlarr-https.tls=true
+      - traefik.http.routers.prowlarr-https.tls.certresolver=${TRAEFIK_CERTRESOLVER}
+      - traefik.http.routers.prowlarr-https.entrypoints=${TRAEFIK_ENTRYPOINT}
+      - traefik.http.routers.prowlarr-https.rule=Host(`${PROWLARR_DOMAIN}`)
+      - traefik.http.services.prowlarr-https.loadbalancer.server.port=9696
+      - traefik.port=9696
+    restart: unless-stopped
 
 networks:
   tailnet:
