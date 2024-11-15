@@ -1,7 +1,28 @@
 services:
+  vpn:
+    image: qmcgaw/gluetun:latest
+    container_name: vpn-qbit
+    hostname: qbit
+    dns:
+     - "8.8.8.8"
+     - "100.100.100.100"
+    cap_add:
+      - net_admin
+    environment:
+      - VPN_SERVICE_PROVIDER=${VPN_SERVICE_PROVIDER}
+      - VPN_TYPE=${VPN_TYPE}
+      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
+      - OPENVPN_USER=${OPENVPN_USER}
+      - OPENVPN_PASSWORD=${OPENVPN_PASS}
+      - SERVER_COUNTRIES=${SERVER_COUNTRIES}
+    networks:
+      - "tailnet"
+
   sabnzbd:
     image: lscr.io/linuxserver/sabnzbd:latest
     container_name: sabnzbd
+    networks: 
+      - tailnet 
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -20,3 +41,8 @@ services:
       - traefik.http.services.sabnzbd-https.loadbalancer.server.port=8080
       - traefik.port=8080
     restart: unless-stopped
+
+networks:
+  tailnet:
+      name: tailnet
+      external: true  
