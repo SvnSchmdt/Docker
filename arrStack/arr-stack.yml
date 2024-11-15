@@ -12,6 +12,8 @@ services:
     volumes:
       - ${CFG_PATH}/radarr:/config
       - ${DATA_PATH}:/media
+      - ${DATA_PATH}/incomplete/radarr:/downloads
+
     labels:
       - "traefik.enable=true"
       # Redirect to https
@@ -22,6 +24,7 @@ services:
       - traefik.http.services.radarr-https.loadbalancer.server.port=7878
       - traefik.port=7878
     restart: unless-stopped
+
   overseerr:
     image: lscr.io/linuxserver/overseerr:latest
     container_name: overseerr
@@ -44,6 +47,30 @@ services:
       - ${CFG_PATH}/overseerr:/config
     restart: unless-stopped
 
+  jackett:
+    image: lscr.io/linuxserver/jackett:latest
+    container_name: jackett
+    networks: 
+      - tailnet
+    labels:
+      - "traefik.enable=true"
+      # Redirect to https
+      - traefik.http.routers.jackett-https.tls=true
+      - traefik.http.routers.jackett-https.tls.certresolver=${TRAEFIK_CERTRESOLVER}
+      - traefik.http.routers.jackett-https.entrypoints=${TRAEFIK_ENTRYPOINT}
+      - traefik.http.routers.jackett-https.rule=Host(`${JACKETT_DOMAIN}`)
+      - traefik.http.services.jackett-https.loadbalancer.server.port=9177
+      - traefik.port=9117
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=Europe/Berlin
+      - AUTO_UPDATE=true #
+      - RUN_OPTS= #optional
+    volumes:
+      - ${CFG_PATH}/jackett/data:/config
+      - ${DATA_PATH}/incomplete/jackett:/downloads
+    restart: unless-stopped
 
 
 networks:
