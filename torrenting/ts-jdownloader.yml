@@ -42,6 +42,7 @@ services:
   jdownloader:
     image: jlesage/jdownloader-2:latest
     container_name: jdownloader
+    user: ${user}:${group}
     labels:
         - traefik.enable=true
         ## Redirect to HTTPS
