@@ -1,8 +1,8 @@
 services:
   vpn:
     image: qmcgaw/gluetun:latest
-    container_name: vpn-qbit
-    hostname: qbit
+    container_name: vpn-nzb
+    hostname: nzb
     dns:
      - "8.8.8.8"
      - "100.100.100.100"
