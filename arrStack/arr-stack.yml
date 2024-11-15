@@ -59,7 +59,7 @@ services:
       - traefik.http.routers.jackett-https.tls.certresolver=${TRAEFIK_CERTRESOLVER}
       - traefik.http.routers.jackett-https.entrypoints=${TRAEFIK_ENTRYPOINT}
       - traefik.http.routers.jackett-https.rule=Host(`${JACKETT_DOMAIN}`)
-      - traefik.http.services.jackett-https.loadbalancer.server.port=9177
+      - traefik.http.services.jackett-https.loadbalancer.server.port=9117
       - traefik.port=9117
     environment:
       - PUID=${PUID}
