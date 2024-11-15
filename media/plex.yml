@@ -3,8 +3,6 @@
 services:
   plex:
     container_name: plex
-    image: plexinc/pms-docker
-    user: "${UID}:${GID}"
     networks:
       - "tailnet"      
     restart: unless-stopped
@@ -29,6 +27,8 @@ services:
       - PLEX_CLAIM=${PLEX_CLAIM}
       - NVIDIA_VISIBLE_DEVICES=all
       - NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
+      - PUID=${PUID}
+      - PGID=${PGID}
     volumes:
       - ${CFG_PATH}/plex:/config
       - ${DATA_PATH}/TV-Shows:${DATA_PATH}/TV-Shows
