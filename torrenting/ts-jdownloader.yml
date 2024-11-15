@@ -60,7 +60,7 @@ services:
       - ${CFG_PATH}/jdownloader:/config
       - ${DATA_PATH}:/downloads
 
-    network_mode: service:tailscale-jdownloader
+    network_mode: service:vpn
 
 networks:
   tailnet:
