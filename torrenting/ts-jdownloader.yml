@@ -51,8 +51,8 @@ services:
         - traefik.http.routers.jdownloader-https.rule=Host(`${JDOWNLOADER_DOMAIN}`)
         - traefik.http.services.jdownloader-https.loadbalancer.server.port=5800
     environment:
-      - USER_ID=911
-      - GROUP_ID=911
+      - PUID=${PUID}
+      - PGID=${PGID}
     volumes:
       - ${CFG_PATH}/jdownloader:/config
       - ${DATA_PATH}:/downloads
