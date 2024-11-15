@@ -21,6 +21,8 @@ services:
   sabnzbd:
     image: lscr.io/linuxserver/sabnzbd:latest
     container_name: sabnzbd
+    dns:
+      - "1.1.1.1"
     networks: 
       - tailnet 
     environment:
