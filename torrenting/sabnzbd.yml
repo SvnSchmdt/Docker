@@ -44,30 +44,6 @@ services:
       - traefik.port=8080
     restart: unless-stopped
 
-  sonarr:
-    image: lscr.io/linuxserver/sonarr:latest
-    container_name: sonarr
-    networks: 
-      - tailnet 
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=Europe/Berlin
-    labels:
-      - "traefik.enable=true"
-      # Redirect to https
-      - traefik.http.routers.sonarr-https.tls=true
-      - traefik.http.routers.sonarr-https.tls.certresolver=${TRAEFIK_CERTRESOLVER}
-      - traefik.http.routers.sonarr-https.entrypoints=${TRAEFIK_ENTRYPOINT}
-      - traefik.http.routers.sonarr-https.rule=Host(`${SONARR_DOMAIN}`)
-      - traefik.http.services.sonarr-https.loadbalancer.server.port=8989
-      - traefik.port=8989
-    volumes:
-      - ${CFG_PATH}/sonarr/data:/config
-      - ${DATA_PATH}:/tv #optional
-      - ${DATA_PATH}/incomplete/nzb:/downloads #optional
-    restart: unless-stopped
-
 
 networks:
   tailnet:
