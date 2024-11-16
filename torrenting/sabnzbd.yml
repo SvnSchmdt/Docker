@@ -23,8 +23,6 @@ services:
     container_name: sabnzbd
     dns:
       - "1.1.1.1"
-    networks: 
-      - tailnet 
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -43,6 +41,7 @@ services:
       - traefik.http.services.sabnzbd-https.loadbalancer.server.port=8080
       - traefik.port=8080
     restart: unless-stopped
+    network_mode: service:vpn
 
 
 networks:
