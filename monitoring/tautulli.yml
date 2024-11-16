@@ -3,6 +3,8 @@ services:
   tautulli:
     image: lscr.io/linuxserver/tautulli:latest
     container_name: tautulli
+    networks: 
+      - tailnet 
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -20,3 +22,7 @@ services:
       - traefik.http.routers.tautulli.rule=Host(`${TAUTULLI_DOMAIN}`)
       - traefik.http.services.tautulli.loadbalancer.server.port=8181
     restart: unless-stopped
+
+networks: 
+  tailnet:
+    external: true  
