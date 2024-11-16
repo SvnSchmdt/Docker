@@ -81,7 +81,7 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=Europe/Berlin
-      - ${CFG_DATA}/prowlarr/data:/config
+      - ${CFG_PATH}/prowlarr/data:/config
     labels:
       - "traefik.enable=true"
       # Redirect to https
@@ -138,6 +138,15 @@ services:
       - ${DATA_PATH}:/media #optional
       - ${DATA_PATH}/incomplete/nzb:/downloads #optional
     restart: unless-stopped
+
+  recyclarr:
+    image: ghcr.io/recyclarr/recyclarr
+    container_name: recyclarr
+    networks: [tailnet]
+    volumes:
+      - ${CFG_PATH}/recyclarr:/config
+    environment:
+      - TZ=Europe/Berlin
 
 networks:
   tailnet:
