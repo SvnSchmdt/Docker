@@ -11,7 +11,7 @@ services:
       - TZ=Europe/Berlin
     volumes:
       - ${CFG_PATH}/radarr:/config
-      - ${DATA_PATH}://downloads
+      - ${DATA_PATH}:/media
       - ${DATA_PATH}/incomplete/radarr:/downloads
 
     labels:
@@ -135,7 +135,7 @@ services:
       - traefik.port=8989
     volumes:
       - ${CFG_PATH}/sonarr/data:/config
-      - ${DATA_PATH}:/downloads #optional
+      - ${DATA_PATH}:/media #optional
       - ${DATA_PATH}/incomplete/nzb:/downloads #optional
     restart: unless-stopped
 

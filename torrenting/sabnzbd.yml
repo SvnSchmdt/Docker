@@ -27,7 +27,7 @@ services:
       - TZ=Europe/Berlin
     volumes:
       - ${CFG_PATH}/sabnzbd/config:/config
-      - ${DATA_PATH}:/downloads #optional
+      - ${DATA_PATH}:/media #optional
       - ${DATA_PATH}/incomplete/nzb:/incomplete-downloads #optional
     labels:
       - "traefik.enable=true"
