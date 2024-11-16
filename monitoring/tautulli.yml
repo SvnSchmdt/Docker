@@ -1,0 +1,22 @@
+---
+services:
+  tautulli:
+    image: lscr.io/linuxserver/tautulli:latest
+    container_name: tautulli
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=Europe/Berlin
+    volumes:
+      - ${CFG_PATH}/tautulli/config:/config
+    networks:
+      - "tailnet"
+    labels:
+      - traefik.enable=true
+    ## the container's port must be the same with the STASH_PORT in the environment section
+      - traefik.http.routers.tautulli.tls=true
+      - traefik.http.routers.tautulli.tls.certresolver=${TRAEFIK_ENTRYPOINT}
+      - traefik.http.routers.tautulli.entrypoints=${TRAEFIK_ENTRYPOINT}
+      - traefik.http.routers.tautulli.rule=Host(`${TAUTULLI_DOMAIN}`)
+      - traefik.http.services.tautulli.loadbalancer.server.port=8181
+    restart: unless-stopped
