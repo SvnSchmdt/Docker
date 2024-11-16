@@ -11,8 +11,6 @@ services:
       - TZ=Europe/Berlin
     volumes:
       - ${CFG_PATH}/tautulli/config:/config
-    networks:
-      - "tailnet"
     labels:
       - traefik.enable=true
     ## the container's port must be the same with the STASH_PORT in the environment section
