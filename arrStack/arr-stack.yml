@@ -11,7 +11,7 @@ services:
       - TZ=Europe/Berlin
     volumes:
       - ${CFG_PATH}/radarr:/config
-      - ${DATA_PATH}:/media
+      - ${DATA_PATH}/Movies:/media
       - ${DATA_PATH}/incomplete/radarr:/downloads
 
     labels:
@@ -69,7 +69,8 @@ services:
       - RUN_OPTS= #optional
     volumes:
       - ${CFG_PATH}/jackett/data:/config
-      - ${DATA_PATH}/incomplete/jackett:/downloads
+      - ${DATA_PATH}/TV-Shows:/media
+      - ${DATA_PATH}/incomplete/sonarr:/downloads
     restart: unless-stopped
 
   prowlarr:
