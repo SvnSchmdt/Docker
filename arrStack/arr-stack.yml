@@ -140,8 +140,9 @@ services:
     restart: unless-stopped
 
   recyclarr:
-    image: ghcr.io/recyclarr/recyclarr
+    image: ghcr.io/recyclarr/recyclarr:latest
     container_name: recyclarr
+    user: ${user}:${group}
     networks: [tailnet]
     volumes:
       - ${CFG_PATH}/recyclarr:/config
