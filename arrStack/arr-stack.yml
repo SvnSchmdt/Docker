@@ -161,11 +161,10 @@ services:
       - DISCORD__TOKEN=${DISCORD_TOKEN}
       - OVERSEERR__API=${OVERSEERR_API}
       - OVERSEERR__URL=${OVERSEERR_URL}
-      - RADARR__API=
-      - RADARR__URL=http://localhost:7878
-      - SONARR__API=
-      - SONARR__URL=http://localhost:8989
-      - DISCORD__MAX_RESULTS=25 #optional
+      # - RADARR__API=
+      # - RADARR__URL=http://localhost:7878
+      # - SONARR__API=
+      # - SONARR__URL=http://localhost:8989    - DISCORD__MAX_RESULTS=25 #optional
       - DISCORD__REQUESTED_MSG_STYLE=:plain #optional
       - SONARR__QUALITY_PROFILE= #optional
       - RADARR__QUALITY_PROFILE= #optional
