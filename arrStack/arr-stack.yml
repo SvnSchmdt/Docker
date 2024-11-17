@@ -149,26 +149,36 @@ services:
     environment:
       - TZ=Europe/Berlin
 
-  notifiarr:
-    container_name: notifiarr
-    hostname: notifiarr
-    labels:
-      - "traefik.enable=true"
-      # Redirect to https
-      - traefik.http.routers.notifiarr-https.tls=true
-      - traefik.http.routers.notifiarr-https.tls.certresolver=${TRAEFIK_CERTRESOLVER}
-      - traefik.http.routers.notifiarr-https.entrypoints=${TRAEFIK_ENTRYPOINT}
-      - traefik.http.routers.notifiarr-https.rule=Host(`${NOTIFIARR_DOMAIN}`)
-      - traefik.http.services.notifiarr-https.loadbalancer.server.port=5454
-      - traefik.port=5454
+  doplarr:
+    image: lscr.io/linuxserver/doplarr:latest
+    container_name: doplarr
     networks: 
-      - tailnet 
-    image: golift/notifiarr:latest
-    restart: unless-stopped
+      - tailnet
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=Europe/Berlin
+      - DISCORD__TOKEN=${DISCORD_TOKEN}
+      - OVERSEERR__API=${OVERSEERR_API}
+      - OVERSEERR__URL=${OVERSEERR_URL}
+      - RADARR__API=
+      - RADARR__URL=http://localhost:7878
+      - SONARR__API=
+      - SONARR__URL=http://localhost:8989
+      - DISCORD__MAX_RESULTS=25 #optional
+      - DISCORD__REQUESTED_MSG_STYLE=:plain #optional
+      - SONARR__QUALITY_PROFILE= #optional
+      - RADARR__QUALITY_PROFILE= #optional
+      - SONARR__ROOTFOLDER= #optional
+      - RADARR__ROOTFOLDER= #optional
+      - SONARR__LANGUAGE_PROFILE= #optional
+      - OVERSEERR__DEFAULT_ID= #optional
+      - PARTIAL_SEASONS=true #optional
+      - LOG_LEVEL=:info #optional
+      - JAVA_OPTS= #optional
     volumes:
-      - ${CFG_PATH}/notifiarr:/config
-      - /var/run/utmp:/var/run/utmp
-      - /etc/machine-id:/etc/machine-id
+      - ${CFG_PATH}/doplarr/config:/config
+    restart: unless-stopped
 networks:
   tailnet:
     external: true  
