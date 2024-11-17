@@ -149,7 +149,6 @@ services:
     environment:
       - TZ=Europe/Berlin
 
-.
   notifiarr:
     container_name: notifiarr
     hostname: notifiarr
