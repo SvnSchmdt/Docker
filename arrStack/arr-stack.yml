@@ -149,6 +149,27 @@ services:
     environment:
       - TZ=Europe/Berlin
 
+.
+  notifiarr:
+    container_name: notifiarr
+    hostname: notifiarr
+    labels:
+      - "traefik.enable=true"
+      # Redirect to https
+      - traefik.http.routers.notifiarr-https.tls=true
+      - traefik.http.routers.notifiarr-https.tls.certresolver=${TRAEFIK_CERTRESOLVER}
+      - traefik.http.routers.notifiarr-https.entrypoints=${TRAEFIK_ENTRYPOINT}
+      - traefik.http.routers.notifiarr-https.rule=Host(`${NOTIFIARR_DOMAIN}`)
+      - traefik.http.services.notifiarr-https.loadbalancer.server.port=5454
+      - traefik.port=5454
+    networks: 
+      - tailnet 
+    image: golift/notifiarr:latest
+    restart: unless-stopped
+    volumes:
+      - ${CFG_PATH}/notifiarr:/config
+      - /var/run/utmp:/var/run/utmp
+      - /etc/machine-id:/etc/machine-id
 networks:
   tailnet:
     external: true  
