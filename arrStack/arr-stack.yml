@@ -168,7 +168,7 @@ services:
       - DISCORD__REQUESTED_MSG_STYLE=:plain #optional
       - OVERSEERR__DEFAULT_ID= #optional
       - PARTIAL_SEASONS=true #optional
-      - LOG_LEVEL=:info #optional
+      - LOG_LEVEL=:debug #optional
       - JAVA_OPTS= #optional
     volumes:
       - ${CFG_PATH}/doplarr/config:/config
