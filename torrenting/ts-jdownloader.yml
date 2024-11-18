@@ -39,9 +39,11 @@ services:
     volumes:
       - ${CFG_PATH}/jdownloader:/config
       - ${DATA_PATH}:/downloads
-    network_mode: service:vpn
+    networks:
+      vpn-test-network:
+        ipv4_address: 172.50.0.2
 
 networks:
-  tailnet:
+  vpn-test-network:
     name: tailnet
     external: true
