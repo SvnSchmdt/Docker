@@ -15,6 +15,7 @@ services:
             - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
             - OPENVPN_USER=${OPENVPN_USER}
             - OPENVPN_PASSWORD=${OPENVPN_PASS}
+            - SERVER_COUNTRIES=${SERVER_COUNTRIES}
         networks:
           - tailnet
 
