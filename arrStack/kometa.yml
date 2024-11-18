@@ -1,0 +1,15 @@
+services:
+  kometa:
+    image: kometateam/kometa:latest
+    container_name: kometa
+    networks: 
+      - tailnet 
+    environment:
+      - TZ=TIMEZONE #optional
+    volumes:
+      - ${CFG_PATH}/kometa:/config
+    restart: unless-stopped
+
+networks:
+  tailnet:
+    external: true  
