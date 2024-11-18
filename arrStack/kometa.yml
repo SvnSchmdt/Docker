@@ -7,7 +7,7 @@ services:
     environment:
       - TZ=TIMEZONE #optional
     volumes:
-      - ${CFG_PATH}/kometa:/config
+      - ${CFG_PATH}/kometa/:/config
     restart: unless-stopped
 
 networks:
