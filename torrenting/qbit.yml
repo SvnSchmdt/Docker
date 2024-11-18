@@ -62,9 +62,7 @@ services:
     volumes:
       - ${CFG_PATH}/qBittorrent:/config
       - ${DATA_PATH}:/downloads
-    network_mode: service:vpn
-    depends_on:
-      -  vpn
+    network_mode: container:vpn-global
 
 networks:
   tailnet:

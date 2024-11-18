@@ -40,8 +40,5 @@ services:
       - ${CFG_PATH}/jdownloader:/config
       - ${DATA_PATH}:/downloads
     network_mode: container:vpn-global
-
-networks:
-  vpn-test-network:
-    name: tailnet
-    external: true
+    depends_on:
+      - vpn-global
