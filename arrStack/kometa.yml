@@ -5,7 +5,9 @@ services:
     networks: 
       - tailnet 
     environment:
-      - TZ=TIMEZONE #optional
+      - KOMETA_RUN=true
+      - KOMETA_OVERLAYS_ONLY=true      
+      - TZ=Europe/Berlin #optional
     volumes:
       - ${CFG_PATH}/kometa/:/config
     restart: unless-stopped
