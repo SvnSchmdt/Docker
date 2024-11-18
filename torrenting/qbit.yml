@@ -18,26 +18,6 @@ services:
   #   restart: unless-stopped
   #   network_mode: service:vpn
   #   depends_on:
-  #     -  vpn
-
-  vpn:
-    image: qmcgaw/gluetun:latest
-    container_name: vpn-qbit
-    hostname: qbit
-    dns:
-     - "8.8.8.8"
-     - "100.100.100.100"
-    cap_add:
-      - net_admin
-    environment:
-      - VPN_SERVICE_PROVIDER=${VPN_SERVICE_PROVIDER}
-      - VPN_TYPE=${VPN_TYPE}
-      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
-      - OPENVPN_USER=${OPENVPN_USER}
-      - OPENVPN_PASSWORD=${OPENVPN_PASS}
-      - SERVER_COUNTRIES=${SERVER_COUNTRIES}
-    networks:
-      - "tailnet"
 
   
   torrent:
@@ -63,8 +43,3 @@ services:
       - ${CFG_PATH}/qBittorrent:/config
       - ${DATA_PATH}:/downloads
     network_mode: container:vpn-global
-
-networks:
-  tailnet:
-      name: tailnet
-      external: true 

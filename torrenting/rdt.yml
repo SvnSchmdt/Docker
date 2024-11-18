@@ -1,23 +1,5 @@
 ---
 services:
-    vpn:
-        image: qmcgaw/gluetun:latest
-        container_name: vpn-rdt
-        hostname: rdt
-        dns:
-            - "8.8.8.8"
-            - "100.100.100.100"
-        cap_add:
-            - net_admin
-        environment:
-            - VPN_SERVICE_PROVIDER=${VPN_SERVICE_PROVIDER}
-            - VPN_TYPE=${VPN_TYPE}
-            - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
-            - OPENVPN_USER=${OPENVPN_USER}
-            - OPENVPN_PASSWORD=${OPENVPN_PASS}
-            - SERVER_COUNTRIES=${SERVER_COUNTRIES}
-        networks:
-            - "tailnet"
     rdtclient:
         image: rogerfar/rdtclient:latest
         container_name: rdtclient
@@ -47,7 +29,7 @@ services:
             retries: 3
             start_period: 30s
             timeout: 30s
-        network_mode: service:vpn
+        network_mode: container:vpn-global
 networks:
     tailnet:
         external: true

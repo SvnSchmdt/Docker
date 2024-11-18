@@ -40,5 +40,4 @@ services:
       - ${CFG_PATH}/jdownloader:/config
       - ${DATA_PATH}:/downloads
     network_mode: container:vpn-global
-    depends_on:
-      - vpn-global
+
