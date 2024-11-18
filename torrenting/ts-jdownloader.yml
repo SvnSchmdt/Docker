@@ -39,9 +39,7 @@ services:
     volumes:
       - ${CFG_PATH}/jdownloader:/config
       - ${DATA_PATH}:/downloads
-    networks:
-      vpn-test-network:
-        ipv4_address: 172.50.0.2
+    network_mode: container:vpn-global
 
 networks:
   vpn-test-network:
