@@ -15,9 +15,9 @@ services:
             - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
             - OPENVPN_USER=${OPENVPN_USER}
             - OPENVPN_PASSWORD=${OPENVPN_PASS}
-    networks:
-      vpn-test-network:
-        ipv4_address: 172.50.0.1
+        networks:
+          vpn-test-network:
+            ipv4_address: 172.50.0.1
 networks:
     vpn-test-network:
         external: true
