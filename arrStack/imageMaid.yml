@@ -1,5 +1,7 @@
 services:
   imagemaid:
+    networks:
+      - tailnet 
     image: kometateam/imagemaid:latest
     container_name: imagemaid
     environment:
@@ -8,3 +10,7 @@ services:
       - ${CFG_PATH}/imageMaid/config:/config
       - ${CFG_PATH}/plex:/plex
     restart: unless-stopped
+
+networks:
+  tailnet:
+    external: true
