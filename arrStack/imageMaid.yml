@@ -5,6 +5,22 @@ services:
     image: kometateam/imagemaid:latest
     container_name: imagemaid
     environment:
+      - PLEX_PATH=/plex
+      - MODE=report
+      - SCHEDULE=
+      - PLEX_URL=${PLEX_URL}
+      - PLEX_TOKEN=${PLEX_TOKEN}
+      - TIMEOUT=600
+      - SLEEP=60
+      - IGNORE_RUNNING=False
+      - LOCAL_DB=False
+      - USE_EXISTING=False
+      - PHOTO_TRANSCODER=False
+      - EMPTY_TRASH=False
+      - CLEAN_BUNDLES=False
+      - OPTIMIZE_DB=False
+      - TRACE=False
+      - LOG_REQUESTS=False
       - TZ=Europe/Berlin #optional
     volumes:
       - ${CFG_PATH}/imageMaid/config:/config
