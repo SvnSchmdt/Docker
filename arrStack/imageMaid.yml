@@ -5,7 +5,7 @@ services:
     image: kometateam/imagemaid:latest
     container_name: imagemaid
     environment:
-      - PLEX_PATH=/plex
+      - PLEX_PATH=${PLEX_PATH}
       - MODE=report
       - SCHEDULE=
       - PLEX_URL=${PLEX_URL}
