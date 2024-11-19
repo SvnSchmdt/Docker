@@ -5,8 +5,12 @@ services:
     networks: 
       - tailnet 
     environment:
-      - KOMETA_RUN=true
-      - KOMETA_OVERLAYS_ONLY=true      
+      - KOMETA_RUN=${KOMETA_RUN}
+      - KOMETA_OVERLAYS_ONLY=${KOMETA_OVERLAYS_ONLY}
+      - KOMETA_COLLECTIONS_ONLY=${KOMETA_COLLECTIONS_ONLY} 
+      - KOMETA_METADATA_ONLY=${KOMETA_METADATA_ONLY}
+      - KOMETA_PLAYLISTS_ONLY=${KOMETA_PLAYLISTS_ONLY}
+      - KOMETA_OPERATIONS_ONLY=${KOMETA_OPERATIONS_ONLY}
       - TZ=Europe/Berlin #optional
     volumes:
       - ${CFG_PATH}/kometa/:/config
