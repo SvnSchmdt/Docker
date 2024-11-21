@@ -24,7 +24,7 @@ services:
       - TZ=Europe/Berlin #optional
     volumes:
       - ${CFG_PATH}/imageMaid/config:/config
-      - ${CFG_PATH}/plex/Library/Application\ Support/Plex\ Media\ Server:/plex
+      - '${CFG_PATH}/plex/Library/Application Support/Plex Media Server:/plex'
     restart: unless-stopped
 
 networks:
