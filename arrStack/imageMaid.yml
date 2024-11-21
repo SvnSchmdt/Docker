@@ -6,21 +6,21 @@ services:
     container_name: imagemaid
     environment:
       - PLEX_PATH=${PLEX_PATH}
-      - MODE=report
-      - SCHEDULE=
+      - MODE=${MODE}
+      - SCHEDULE=${SCHEDULE}
       - PLEX_URL=${PLEX_URL}
       - PLEX_TOKEN=${PLEX_TOKEN}
-      - TIMEOUT=600
-      - SLEEP=60
-      - IGNORE_RUNNING=False
-      - LOCAL_DB=False
-      - USE_EXISTING=False
-      - PHOTO_TRANSCODER=False
-      - EMPTY_TRASH=False
-      - CLEAN_BUNDLES=False
-      - OPTIMIZE_DB=False
-      - TRACE=False
-      - LOG_REQUESTS=False
+      - TIMEOUT=${TIMEOUT}
+      - SLEEP=${SLEEP}
+      - IGNORE_RUNNING=${IGNORE_RUNNING}
+      - LOCAL_DB=${LOCAL_DB}
+      - USE_EXISTING=${USE_EXISTING}
+      - PHOTO_TRANSCODER=${PHOTO_TRANSCODER}
+      - EMPTY_TRASH=${EMPTY_TRASH}
+      - CLEAN_BUNDLES=${CLEAN_BUNDLES}
+      - OPTIMIZE_DB=${OPTIMIZE_DB}
+      - TRACE=${TRACE}
+      - LOG_REQUESTS=${LOG_REQUESTS}
       - TZ=Europe/Berlin #optional
     volumes:
       - ${CFG_PATH}/imageMaid/config:/config
