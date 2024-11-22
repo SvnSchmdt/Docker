@@ -1,7 +1,7 @@
 ---
 services:
   plextraktsync:
-    image: ghcr.io/taxel/plextraktsync:latest
+    image: ghcr.io/taxel/plextraktsync
     command: watch
     privileged: true
     stdin_open: true
