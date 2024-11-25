@@ -1,0 +1,19 @@
+---
+services:
+  plextraktsync:
+    image: ghcr.io/taxel/plextraktsync
+    command: watch
+    container_name: plextraktwatch
+    networks: 
+      - tailnet
+    restart: on-failure:2
+    volumes:
+      - ${CFG_PATH}/plexTrakt:/app/config
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=Europe/Berlin
+
+networks:
+  tailnet:
+    external: true
