@@ -10,7 +10,7 @@ services:
       - traefik.http.routers.homepage.tls=true
       - traefik.http.routers.homepage.tls.certresolver=${TRAEFIK_ENTRYPOINT}
       - traefik.http.routers.homepage.entrypoints=${TRAEFIK_ENTRYPOINT}
-      - traefik.http.routers.homepage.rule=Host(`${HOMEPAGE_DOMAIN}`)
+      - traefik.http.routers.homepage.rule=Host(`homepage.${DOMAIN}`)
       - traefik.http.services.homepage.loadbalancer.server.port=3000
     volumes:
       - ${CFG_PATH}/hompage/:/app/config # Make sure your local config directory exists

@@ -9,7 +9,7 @@ services:
         - traefik.http.routers.pdf-https.tls=true
         - traefik.http.routers.pdf-https.tls.certresolver=${TRAEFIK_CERTRESOLVER}
         - traefik.http.routers.pdf-https.entrypoints=${TRAEFIK_ENTRYPOINT}
-        - traefik.http.routers.pdf-https.rule=Host(`${PDF_DOMAIN}`)
+        - traefik.http.routers.pdf-https.rule=Host(`pdf.${DOMAIN}`)
         - traefik.http.services.pdf-https.loadbalancer.server.port=8080
     volumes:
       - ${CFG_PATH}/pdf/trainingData:/usr/share/tessdata #Required for extra OCR languages

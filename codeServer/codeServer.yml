@@ -11,7 +11,7 @@ services:
       - traefik.http.routers.code.tls=true
       - traefik.http.routers.code.tls.certresolver=${TRAEFIK_CERTRESOLVER}
       - traefik.http.routers.code.entrypoints=${TRAEFIK_ENTRYPOINT}
-      - traefik.http.routers.code.rule=Host(`${CODE_DOMAIN}`)
+      - traefik.http.routers.code.rule=Host(`code.${DOMAIN}`)
       - traefik.http.services.code.loadbalancer.server.port=8443
     environment:
       - PUID=1000

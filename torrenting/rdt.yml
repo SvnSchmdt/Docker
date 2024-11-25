@@ -9,7 +9,7 @@ services:
             - traefik.http.routers.rdt-https.tls=true
             - traefik.http.routers.rdt-https.tls.certresolver=${TRAEFIK_CERTRESOLVER}
             - traefik.http.routers.rdt-https.entrypoints=${TRAEFIK_ENTRYPOINT}
-            - traefik.http.routers.rdt-https.rule=Host(`${RDT_DOMAIN}`)
+            - traefik.http.routers.rdt-https.rule=Host(`rdt.${DOMAIN}`)
             - traefik.http.services.rdt-https.loadbalancer.server.port=6500
             - traefik.port=6500
         environment:

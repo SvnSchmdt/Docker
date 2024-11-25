@@ -10,7 +10,7 @@ services:
       - traefik.http.routers.tdarr.tls=true
       - traefik.http.routers.tdarr.tls.certresolver=${TRAEFIK_ENTRYPOINT}
       - traefik.http.routers.tdarr.entrypoints=${TRAEFIK_ENTRYPOINT}
-      - traefik.http.routers.tdarr.rule=Host(`${TDARR_DOMAIN}`)
+      - traefik.http.routers.tdarr.rule=Host(`tdarr.${DOMAIN}`)
       - traefik.http.services.tdarr.loadbalancer.server.port=8265
     networks:
       - tailnet

@@ -16,7 +16,7 @@ services:
       - traefik.http.routers.sabnzbd-https.tls=true
       - traefik.http.routers.sabnzbd-https.tls.certresolver=${TRAEFIK_CERTRESOLVER}
       - traefik.http.routers.sabnzbd-https.entrypoints=${TRAEFIK_ENTRYPOINT}
-      - traefik.http.routers.sabnzbd-https.rule=Host(`${SABNZBD_DOMAIN}`)
+      - traefik.http.routers.sabnzbd-https.rule=Host(`nzb.${DOMAIN}`)
       - traefik.http.services.sabnzbd-https.loadbalancer.server.port=8080
       - traefik.port=8080
     restart: unless-stopped

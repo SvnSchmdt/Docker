@@ -30,7 +30,7 @@ services:
       - traefik.http.routers.qbit-https.tls=true
       - traefik.http.routers.qbit-https.tls.certresolver=${TRAEFIK_CERTRESOLVER}
       - traefik.http.routers.qbit-https.entrypoints=${TRAEFIK_ENTRYPOINT}
-      - traefik.http.routers.qbit-https.rule=Host(`${QBIT_DOMAIN}`)
+      - traefik.http.routers.qbit-https.rule=Host(`qbit.${DOMAIN}`)
       - traefik.http.services.qbit-https.loadbalancer.server.port=8081
       - traefik.port=8081
     environment:

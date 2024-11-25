@@ -17,7 +17,7 @@ services:
       - traefik.http.routers.tautulli.tls=true
       - traefik.http.routers.tautulli.tls.certresolver=${TRAEFIK_ENTRYPOINT}
       - traefik.http.routers.tautulli.entrypoints=${TRAEFIK_ENTRYPOINT}
-      - traefik.http.routers.tautulli.rule=Host(`${TAUTULLI_DOMAIN}`)
+      - traefik.http.routers.tautulli.rule=Host(`tautulli.${DOMAIN}`)
       - traefik.http.services.tautulli.loadbalancer.server.port=8181
     restart: unless-stopped
 
