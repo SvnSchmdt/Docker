@@ -21,7 +21,7 @@ services:
       - traefik.http.routers.plex.tls=true
       - traefik.http.routers.plex.tls.certresolver=${TRAEFIK_CERTRESOLVER}
       - traefik.http.routers.plex.entrypoints=${TRAEFIK_ENTRYPOINT}
-      - traefik.http.routers.plex.rule=Host(`${PLEX_DOMAIN}`)
+      - traefik.http.routers.plex.rule=Host(`plex.${DOMAIN}`)
       - traefik.http.services.plex.loadbalancer.server.port=32400
     environment:
       - 'ADVERTISE_IP=http://192.168.178.146:32400/,${ADVERTISE_DOMAIN}'
