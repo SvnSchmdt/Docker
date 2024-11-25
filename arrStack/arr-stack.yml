@@ -177,6 +177,8 @@ services:
   get_iplayer:
     image: ghcr.io/thespad/whisparr:latest
     container_name: whisparr
+    networks: 
+      - tailnet
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
