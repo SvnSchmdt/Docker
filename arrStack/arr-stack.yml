@@ -194,7 +194,7 @@ services:
       - traefik.port=6969
     volumes:
       - ${CFG_PATH}/whisparr/config:/config
-      - ${DATA_PATH}/Documents:/downloads
+      - ${DATA_PATH}/Documents:/media
     restart: unless-stopped
 networks:
   tailnet:
