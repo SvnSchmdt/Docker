@@ -173,6 +173,27 @@ services:
     volumes:
       - ${CFG_PATH}/doplarr/config:/config
     restart: unless-stopped
+
+  get_iplayer:
+    image: ghcr.io/thespad/whisparr:latest
+    container_name: whisparr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=Europe/Berlin
+    labels:
+      - "traefik.enable=true"
+      # Redirect to https
+      - traefik.http.routers.whisparr-https.tls=true
+      - traefik.http.routers.whisparr-https.tls.certresolver=${TRAEFIK_CERTRESOLVER}
+      - traefik.http.routers.whisparr-https.entrypoints=${TRAEFIK_ENTRYPOINT}
+      - traefik.http.routers.whisparr-https.rule=Host(`whisparr.${DOMAIN}`)
+      - traefik.http.services.whisparr-https.loadbalancer.server.port=6969
+      - traefik.port=6969
+    volumes:
+      - ${CFG_PATH}/whisparr/config:/config
+      - ${CFG_PATH}/Documents:/downloads
+    restart: unless-stopped
 networks:
   tailnet:
     external: true  
