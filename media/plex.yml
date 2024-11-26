@@ -27,6 +27,7 @@ services:
       - 'ADVERTISE_IP=http://192.168.178.146:32400/,${ADVERTISE_DOMAIN}'
       - TZ=Europe/Berlin
       - PLEX_CLAIM=${PLEX_CLAIM}
+      - VERSION=docker
       - NVIDIA_VISIBLE_DEVICES=all
       - NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
       - PUID=${PUID}
