@@ -34,7 +34,7 @@ services:
     volumes:
       - ${CFG_PATH}/plex:/config
       - ${DATA_PATH}/TV-Shows:${DATA_PATH}/TV-Shows
-      - ${DATA_PATH}/Animes:${DATA_PATH}/Animes
+      - ${DATA_PATH}/Anime:${DATA_PATH}/Anime
       - ${DATA_PATH}/Movies:${DATA_PATH}/Movies
 
 
