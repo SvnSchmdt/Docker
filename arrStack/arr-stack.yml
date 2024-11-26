@@ -131,8 +131,8 @@ services:
       - traefik.http.routers.sonarr-tv-https.tls.certresolver=${TRAEFIK_CERTRESOLVER}
       - traefik.http.routers.sonarr-tv-https.entrypoints=${TRAEFIK_ENTRYPOINT}
       - traefik.http.routers.sonarr-tv-https.rule=Host(`sonarr.tv.${DOMAIN}`)
-      - traefik.http.services.sonarr-tv-https.loadbalancer.server.port=8989
-      - traefik.port=8989
+      - traefik.http.services.sonarr-tv-https.loadbalancer.server.port=8980
+      - traefik.port=8980
     volumes:
       - ${CFG_PATH}/sonarr-tv/data:/config
       - ${DATA_PATH}:/media #optional
