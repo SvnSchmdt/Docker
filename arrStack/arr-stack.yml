@@ -115,9 +115,9 @@ services:
       - traefik.port=8191
     restart: unless-stopped 
 
-  sonarr:
+  sonarr-tv:
     image: lscr.io/linuxserver/sonarr:latest
-    container_name: sonarr
+    container_name: sonarr-tv
     networks: 
       - tailnet 
     environment:
@@ -127,14 +127,39 @@ services:
     labels:
       - "traefik.enable=true"
       # Redirect to https
-      - traefik.http.routers.sonarr-https.tls=true
-      - traefik.http.routers.sonarr-https.tls.certresolver=${TRAEFIK_CERTRESOLVER}
-      - traefik.http.routers.sonarr-https.entrypoints=${TRAEFIK_ENTRYPOINT}
-      - traefik.http.routers.sonarr-https.rule=Host(`sonarr.${DOMAIN}`)
-      - traefik.http.services.sonarr-https.loadbalancer.server.port=8989
+      - traefik.http.routers.sonarr-tv-https.tls=true
+      - traefik.http.routers.sonarr-tv-https.tls.certresolver=${TRAEFIK_CERTRESOLVER}
+      - traefik.http.routers.sonarr-tv-https.entrypoints=${TRAEFIK_ENTRYPOINT}
+      - traefik.http.routers.sonarr-tv-https.rule=Host(`sonarr.tv.${DOMAIN}`)
+      - traefik.http.services.sonarr-tv-https.loadbalancer.server.port=8989
       - traefik.port=8989
     volumes:
-      - ${CFG_PATH}/sonarr/data:/config
+      - ${CFG_PATH}/sonarr-tv/data:/config
+      - ${DATA_PATH}:/media #optional
+      - ${DATA_PATH}/incomplete/nzb:/downloads #optional
+    restart: unless-stopped
+
+
+  sonarr-anime:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr-anime
+    networks: 
+      - tailnet 
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=Europe/Berlin
+    labels:
+      - "traefik.enable=true"
+      # Redirect to https
+      - traefik.http.routers.sonarr-anime-https.tls=true
+      - traefik.http.routers.sonarr-anime-https.tls.certresolver=${TRAEFIK_CERTRESOLVER}
+      - traefik.http.routers.sonarr-anime-https.entrypoints=${TRAEFIK_ENTRYPOINT}
+      - traefik.http.routers.sonarr-anime-https.rule=Host(`sonarr.anime.${DOMAIN}`)
+      - traefik.http.services.sonarr-anime-https.loadbalancer.server.port=8989
+      - traefik.port=8989
+    volumes:
+      - ${CFG_PATH}/sonarr-anime/data:/config
       - ${DATA_PATH}:/media #optional
       - ${DATA_PATH}/incomplete/nzb:/downloads #optional
     restart: unless-stopped
