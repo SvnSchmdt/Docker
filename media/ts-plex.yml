@@ -28,6 +28,7 @@ services:
       - TZ=Europe/Berlin
       - PLEX_CLAIM=${PLEX_CLAIM}
       - NVIDIA_VISIBLE_DEVICES=all
+      - VERSION=docker
       - NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
       - PUID=${PUID}
       - PGID=${PGID}
