@@ -14,7 +14,7 @@ services:
       - traefik.http.routers.traefik-https.tls=true
       - traefik.http.routers.traefik-https.tls.certresolver=${TRAEFIK_CERTRESOLVER}
       - traefik.http.routers.traefik-https.entrypoints=${TRAEFIK_ENTRYPOINT}
-      - traefik.http.routers.traefik-https.rule=Host(`traefik.${DOMAIN}`)
+      - traefik.http.routers.traefik-https.rule=Host(`proxy.${DOMAIN}`)
       - traefik.http.services.traefik-https.loadbalancer.server.port=8080 
     ports:
       # The HTTP port
