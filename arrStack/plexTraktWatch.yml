@@ -3,6 +3,9 @@ services:
   plextraktsync:
     image: ghcr.io/taxel/plextraktsync
     command: watch
+    privileged: true
+    stdin_open: true
+    tty: true
     container_name: plextraktwatch
     networks: 
       - tailnet
