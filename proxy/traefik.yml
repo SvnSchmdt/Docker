@@ -17,10 +17,8 @@ services:
       - traefik.http.routers.traefik-https.rule=Host(`proxy.${DOMAIN}`)
       - traefik.http.services.traefik-https.loadbalancer.server.port=8080 
     ports:
-      # The HTTP port
       - "80:80"
       - 443:443
-      # The Web UI (enabled by --api.insecure=true)
       - "8080:8080"
     volumes:
       - ${CFG_PATH}/traefik/letsencrypt/:/letsencrypt
