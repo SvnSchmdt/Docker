@@ -22,6 +22,8 @@ services:
   jdownloader:
     image: jlesage/jdownloader-2:latest
     container_name: jdownloader
+    networks:
+      - tailnet
     user: ${user}:${group}
     labels:
         - traefik.enable=true
@@ -41,3 +43,6 @@ services:
       - ${DATA_PATH}:/downloads
     network_mode: container:vpn-global
 
+networks:
+  tailnet:
+    external: true
