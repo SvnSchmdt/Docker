@@ -22,8 +22,6 @@ services:
   jdownloader:
     image: jlesage/jdownloader-2:latest
     container_name: jdownloader
-    networks:
-      - tailnet
     user: ${user}:${group}
     labels:
         - traefik.enable=true
