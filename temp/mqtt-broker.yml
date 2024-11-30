@@ -5,3 +5,4 @@ services:
     container_name: mosquitto
     ports:
       - "1883:1883"  # Expose MQTT broker port
+    network_mode: host
