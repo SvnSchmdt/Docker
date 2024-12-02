@@ -35,6 +35,7 @@ services:
       - ${CFG_PATH}/plex:/config
       - ${CFG_PATH}/plex/transcode:/transcode
       - ${DATA_PATH}/Anime:${DATA_PATH}/Anime
+      - ${DATA_PATH}/Documents/:${DATA_PATH}/H
       - ${DATA_PATH}/TV-Shows:${DATA_PATH}/TV-Shows
       - ${DATA_PATH}/Movies:${DATA_PATH}/Movies
 
