@@ -3,6 +3,7 @@ services:
     vpn:
         image: qmcgaw/gluetun:latest
         container_name: vpn-global
+        restart: always
         hostname: vpn
         dns:
             - "1.1.1.1"
