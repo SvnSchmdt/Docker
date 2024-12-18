@@ -3,6 +3,8 @@ services:
   posterr:
     image: petersem/posterr
     container_name: posterr
+    networks:
+      - "tailnet"
     labels:
         - traefik.enable=true
         ## Redirect to HTTPS
@@ -18,3 +20,8 @@ services:
       - ${CFG_PATH}/posterr/config:/usr/src/app/config
       - ${CFG_PATH}/posterr/custom:/usr/src/app/public/custom
     restart: unless-stopped
+
+networks:
+  tailnet:
+      name: tailnet
+      external: true 
