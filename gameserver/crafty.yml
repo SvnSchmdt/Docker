@@ -4,6 +4,7 @@ services:
     container_name: crafty_container
     image: registry.gitlab.com/crafty-controller/crafty-4:latest
     restart: always
+    user: ${user}:${group}
     networks:
       - "tailnet"
     environment:
