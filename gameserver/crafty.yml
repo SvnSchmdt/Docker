@@ -4,6 +4,8 @@ services:
     container_name: crafty_container
     image: registry.gitlab.com/crafty-controller/crafty-4:latest
     restart: always
+    networks:
+      - "tailnet"
     environment:
         - TZ=Europe/Berlin
     labels:
@@ -26,3 +28,7 @@ services:
         - ${CFG_PATH}/crafty/servers:/crafty/servers
         - ${CFG_PATH}/crafty/config:/crafty/app/config
         - ${CFG_PATH}/crafty/import:/crafty/import
+networks:
+  tailnet:
+      name: tailnet
+      external: true 
