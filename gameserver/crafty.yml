@@ -1,0 +1,28 @@
+---
+services:
+  crafty:
+    container_name: crafty_container
+    image: registry.gitlab.com/crafty-controller/crafty-4:latest
+    restart: always
+    environment:
+        - TZ=Europe/Berlin
+    labels:
+      - "traefik.enable=true"
+      # Redirect to https
+      - traefik.http.routers.crafty-https.tls=true
+      - traefik.http.routers.crafty-https.tls.certresolver=${TRAEFIK_CERTRESOLVER}
+      - traefik.http.routers.crafty-https.entrypoints=${TRAEFIK_ENTRYPOINT}
+      - traefik.http.routers.crafty-https.rule=Host(`crafty.${DOMAIN}`)
+      - traefik.http.services.crafty-https.loadbalancer.server.port=8443
+      - traefik.port=8081
+    ports:
+        - "8443:8443" # HTTPS
+        - "8123:8123" # DYNMAP
+        - "19132:19132/udp" # BEDROCK
+        - "25500-25600:25500-25600" # MC SERV PORT RANGE
+    volumes:
+        - ${CFG_PATH}/crafty/logs:/crafty/logs
+        - ${CFG_PATH}/crafty/backups:/crafty/backups
+        - ${CFG_PATH}/crafty/servers:/crafty/servers
+        - ${CFG_PATH}/crafty/config:/crafty/app/config
+        - ${CFG_PATH}/crafty/import:/crafty/import
