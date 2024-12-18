@@ -14,8 +14,8 @@ services:
       - traefik.http.routers.crafty-https.tls.certresolver=${TRAEFIK_CERTRESOLVER}
       - traefik.http.routers.crafty-https.entrypoints=${TRAEFIK_ENTRYPOINT}
       - traefik.http.routers.crafty-https.rule=Host(`crafty.${DOMAIN}`)
-      - traefik.http.services.crafty-https.loadbalancer.server.port=9443
-      - traefik.port=9443
+      - traefik.http.services.crafty-https.loadbalancer.server.port=8443
+      - traefik.port=8443
     volumes:
         - ${CFG_PATH}/crafty/logs:/crafty/logs
         - ${CFG_PATH}/crafty/backups:/crafty/backups
