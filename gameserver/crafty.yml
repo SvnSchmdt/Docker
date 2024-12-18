@@ -5,8 +5,6 @@ services:
     image: registry.gitlab.com/crafty-controller/crafty-4:latest
     restart: always
     user: ${user}:${group}
-    networks:
-      - "tailnet"
     environment:
         - TZ=Europe/Berlin
     labels:
@@ -18,17 +16,38 @@ services:
       - traefik.http.routers.crafty-https.rule=Host(`crafty.${DOMAIN}`)
       - traefik.http.services.crafty-https.loadbalancer.server.port=9443
       - traefik.port=9443
-    ports:
-        - "9443:9443" # HTTPS
-        - "8123:8123" # DYNMAP
-        - "19132:19132/udp" # BEDROCK
-        - "25500-25600:25500-25600" # MC SERV PORT RANGE
     volumes:
         - ${CFG_PATH}/crafty/logs:/crafty/logs
         - ${CFG_PATH}/crafty/backups:/crafty/backups
         - ${CFG_PATH}/crafty/servers:/crafty/servers
         - ${CFG_PATH}/crafty/config:/crafty/app/config
         - ${CFG_PATH}/crafty/import:/crafty/import
+    network_mode: service:tailscale-crafty
+    depends_on:
+      - tailscale-crafty  
+
+  tailscale-crafty:
+      image: tailscale/tailscale:latest
+      container_name: ts-minecraft
+      hostname: minecraft
+      networks:
+        - "tailnet"       
+      dns:
+        - "8.8.8.8"
+      environment:
+        - TS_AUTHKEY=${CLOUD_TS_AUTH_KEY}
+        - TS_EXTRA_ARGS=--advertise-tags=tag:container
+        - TS_STATE_DIR=/var/lib/tailscale
+        - TS_SERVE_CONFIG=/config/nextcloud.json
+        - TS_USERSPACE=false
+      volumes:
+        - ${CFG_PATH}/tailscale/tailscale-crafty/state:/var/lib/tailscale
+        - ${CFG_PATH}/tailscale/tailscale-crafty/config:/config
+        - /dev/net/tun:/dev/net/tun
+      cap_add:
+        - net_admin
+        - sys_module
+      restart: unless-stopped
 networks:
   tailnet:
       name: tailnet
