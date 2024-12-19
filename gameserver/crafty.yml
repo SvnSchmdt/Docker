@@ -31,7 +31,7 @@ services:
 
   tailscale-crafty:
       image: tailscale/tailscale:latest
-      container_name: ts-minecraft
+      container_name: tailscale-crafty
       hostname: mc
       networks:
         - "tailnet"       
