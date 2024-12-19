@@ -3,7 +3,14 @@ services:
   crafty:
     container_name: crafty_container
     image: registry.gitlab.com/crafty-controller/crafty-4:latest
+    networks:
+      - "tailnet"
     restart: always
+    ports:
+        - "8443:8443" # HTTPS
+        - "8123:8123" # DYNMAP
+        - "19132:19132/udp" # BEDROCK
+        - "25500-25600:25500-25600" # MC SERV PORT RANGE
     user: ${user}:${group}
     environment:
         - TZ=Europe/Berlin
@@ -25,34 +32,6 @@ services:
         - ${CFG_PATH}/crafty/servers:/crafty/servers
         - ${CFG_PATH}/crafty/config:/crafty/app/config
         - ${CFG_PATH}/crafty/import:/crafty/import
-    network_mode: service:tailscale-crafty
-    depends_on:
-      - tailscale-crafty  
-
-  tailscale-crafty:
-      image: tailscale/tailscale:latest
-      container_name: tailscale-crafty
-      hostname: mc
-      networks:
-        - "tailnet"       
-      dns:
-        - "8.8.8.8"
-      environment:
-        - TS_AUTHKEY=${CLOUD_TS_AUTH_KEY}
-        - TS_EXTRA_ARGS=--advertise-tags=tag:container
-        - TS_STATE_DIR=/var/lib/tailscale
-        - TS_SERVE_CONFIG=/config/crafty.json
-        - TS_USERSPACE=false
-      volumes:
-        - ${CFG_PATH}/tailscale/tailscale-crafty/state:/var/lib/tailscale
-        - ${CFG_PATH}/tailscale/tailscale-crafty/config:/config
-        - /dev/net/tun:/dev/net/tun
-      cap_add:
-        - net_admin
-        - sys_module
-      devices:
-        - /dev/net/tun:/dev/net/tun
-      restart: unless-stopped
 networks:
   tailnet:
       name: tailnet
