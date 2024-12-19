@@ -23,6 +23,7 @@ services:
   torrent:
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbit
+    restart: always
     user: ${user}:${group}
     labels:
       - "traefik.enable=true"

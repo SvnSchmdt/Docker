@@ -19,6 +19,6 @@ services:
       - traefik.http.routers.sabnzbd-https.rule=Host(`nzb.${DOMAIN}`)
       - traefik.http.services.sabnzbd-https.loadbalancer.server.port=8080
       - traefik.port=8080
-    restart: unless-stopped
+    restart: always
     network_mode: container:vpn-global
 
