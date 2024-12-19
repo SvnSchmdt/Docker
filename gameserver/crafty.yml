@@ -16,6 +16,9 @@ services:
       - traefik.http.routers.crafty-https.rule=Host(`crafty.${DOMAIN}`)
       - traefik.http.services.crafty-https.loadbalancer.server.port=8443
       - traefik.port=8443
+      - "traefik.enable=true"
+      - "traefik.http.services.crafty.loadbalancer.server.scheme=https"
+      - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto = https"
     volumes:
         - ${CFG_PATH}/crafty/logs:/crafty/logs
         - ${CFG_PATH}/crafty/backups:/crafty/backups
