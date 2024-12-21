@@ -10,7 +10,7 @@ services:
         - traefik.http.routers.adguard-https.tls=true
         - traefik.http.routers.adguard-https.tls.certresolver=${TRAEFIK_CERTRESOLVER}
         - traefik.http.routers.adguard-https.entrypoints=${TRAEFIK_ENTRYPOINT}
-        - traefik.http.routers.adguard-https.rule=Host(`adguard${DOMAIN}`)
+        - traefik.http.routers.adguard-https.rule=Host(`adguard.${DOMAIN}`)
         - traefik.http.services.adguard-https.loadbalancer.server.port=80
       volumes:
           - ${CFG_PATH}/adguardData:/opt/adguardhome/work
