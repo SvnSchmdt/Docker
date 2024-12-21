@@ -4,6 +4,8 @@ services:
       image: adguard/adguardhome:latest
       container_name: adguardhome
       restart: unless-stopped
+      ports;
+        - "53:53"
       labels:
         - traefik.enable=true
         ## Redirect to HTTPS
@@ -11,7 +13,7 @@ services:
         - traefik.http.routers.adguard-https.tls.certresolver=${TRAEFIK_CERTRESOLVER}
         - traefik.http.routers.adguard-https.entrypoints=${TRAEFIK_ENTRYPOINT}
         - traefik.http.routers.adguard-https.rule=Host(`adguard.${DOMAIN}`)
-        - traefik.http.services.adguard-https.loadbalancer.server.port=3000
+        - traefik.http.services.adguard-https.loadbalancer.server.port=80
       volumes:
           - ${CFG_PATH}/adguardData:/opt/adguardhome/work
           - ${CFG_PATH}/adguard:/opt/adguardhome/conf
