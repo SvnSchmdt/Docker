@@ -4,8 +4,6 @@ services:
       image: adguard/adguardhome:latest
       container_name: adguardhome
       restart: unless-stopped
-      ports:
-
       labels:
         - traefik.enable=true
         ## Redirect to HTTPS
