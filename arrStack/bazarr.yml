@@ -1,0 +1,30 @@
+---
+services:
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    networks: 
+      - tailnet
+    labels:
+      - "traefik.enable=true"
+      # Redirect to https
+      - traefik.http.routers.bazarr-https.tls=true
+      - traefik.http.routers.bazarr-https.tls.certresolver=${TRAEFIK_CERTRESOLVER}
+      - traefik.http.routers.bazarr-https.entrypoints=${TRAEFIK_ENTRYPOINT}
+      - traefik.http.routers.bazarr-https.rule=Host(`bazarr.${DOMAIN}`)
+      - traefik.http.services.bazarr-https.loadbalancer.server.port=6767
+      - traefik.port=6767
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=Europe/Berlin
+    volumes:
+      - ${CFG_PATH}/bazarr:/config
+      - ${DATA_PATH}/Movies:/movies #optional
+      - ${DATA_PATH}/TV-Shows:/tv #optional
+    restart: unless-stopped
+
+networks:
+  default:
+    external:
+      name: tailnet
