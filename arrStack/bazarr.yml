@@ -25,6 +25,5 @@ services:
     restart: unless-stopped
 
 networks:
-  default:
-    external:
-      name: tailnet
+  tailnet:
+    external: true  
