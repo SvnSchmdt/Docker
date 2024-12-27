@@ -3,7 +3,7 @@ services:
   adguard:
       image: adguard/adguardhome:latest
       container_name: adguardhome
-      restart: unless-stopped
+      restart: always
       ports:  # Map container ports to host ports
         # Expose port 53 on TCP and UDP for DNS queries
         - "53:53/tcp"
