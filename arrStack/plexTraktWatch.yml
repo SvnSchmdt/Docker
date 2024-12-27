@@ -1,7 +1,7 @@
 ---
 services:
   plextraktsync:
-    image: ghcr.io/taxel/plextraktsync
+    image: ghcr.io/taxel/plextraktsync:latest
     command: watch
     privileged: true
     stdin_open: true
@@ -9,7 +9,7 @@ services:
     container_name: plextraktwatch
     networks: 
       - tailnet
-    restart: on-failure:2
+    restart: always
     volumes:
       - ${CFG_PATH}/plexTrakt:/app/config
     environment:
