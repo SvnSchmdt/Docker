@@ -5,6 +5,8 @@ services:
     container_name: plex
     image: plexinc/pms-docker:${PLEX_VERSION}
     user: ${user}:${group}
+    dns:
+      - 1.1.1.1
     networks:
       - "tailnet"
     restart: always
