@@ -3,7 +3,7 @@
 services:
   plex:
     container_name: plex
-    image: plexinc/pms-docker:latest
+    image: plexinc/pms-docker:${PLEX_VERSION}
     user: ${user}:${group}
     networks:
       - "tailnet"
