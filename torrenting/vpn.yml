@@ -5,6 +5,8 @@ services:
         container_name: vpn-global
         restart: always
         hostname: vpn
+        devices:
+        - /dev/net/tun:/dev/net/tun
         dns:
             - "1.1.1.1"
             - "100.100.100.100"
