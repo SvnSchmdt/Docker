@@ -4,6 +4,8 @@ services:
     image: ghcr.io/taxel/plextraktsync:latest
     command: watch
     privileged: true
+    dns:
+      - 1.1.1.1
     stdin_open: true
     tty: true
     container_name: plextraktwatch
