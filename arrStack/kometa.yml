@@ -1,6 +1,6 @@
 services:
   kometa:
-    image: kometateam/kometa:latest
+    image: kometateam/kometa:${VERSION_TAG}
     container_name: kometa
     networks: 
       - tailnet 
