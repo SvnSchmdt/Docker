@@ -2,6 +2,8 @@ services:
   kometa:
     image: kometateam/kometa:${VERSION_TAG}
     container_name: kometa
+    dns:
+      - 1.1.1.1
     networks: 
       - tailnet 
     environment:
